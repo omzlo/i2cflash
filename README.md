@@ -1,11 +1,7 @@
+This tool can flash firmware over I2C for devices that have a compatible bootloader.
 
-Go to boot mode 
+## Building
 
 ```
-~/src/spidev-test/spidev_test -v -p "\x0C\x17"
-```
-
-Leave bootmode 
-```
-~/src/spidev-test/spidev_test -s 500000 -v -p "\x92\x04"
+go build cmd/i2cflash.go
 ```
