@@ -118,7 +118,7 @@ func process_command(fs *flag.FlagSet) error {
 		}
 		d.Close()
 		fmt.Printf("Bootloader version: %d\n", d.Version)
-		fmt.Printf("MCU ID: 0x%08x\n", d.McuId)
+		fmt.Printf("MCU ID: 0x%08x (%s)\n", d.McuId, device.IdentifyChip(d.McuId))
 		fmt.Printf("Page size: %d\n", d.PageSize)
 		fmt.Printf("Flash size (Kb): %d\n", d.FlashSize)
 		fmt.Printf("Program start address: 0x%08x\n", d.ProgStart)

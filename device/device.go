@@ -126,6 +126,15 @@ func (dev *Device) FlashSetAddress(addr uint32) error {
 	return dev.WriteBytes(ADDR_ADDR, req[:])
 }
 
+func (dev *Device) FlashGetAddress() (uint32, error) {
+	var buf [4]byte
+	err := dev.ReadBytes(ADDR_ADDR, buf[:])
+	if err != nil {
+		return 0, err
+	}
+	return (uint32(buf[0])) + (uint32(buf[1]) << 8) + (uint32(buf[2]) << 16) + (uint32(buf[3]) << 24), nil
+}
+
 func (dev *Device) waitProg(prog byte, gap time.Duration) error {
 	if err := dev.WriteByte(ADDR_PROG, prog); err != nil {
 		return err
@@ -203,7 +212,7 @@ func (dev *Device) flashErase(block_count int) error {
 			return err
 		}
 		if ecode := dev.ErrorStatusByte(); ecode != 0 {
-			return fmt.Errorf("Flash erase failed, error code 0x%02x", ecode)
+			return fmt.Errorf("Flash erase failed at 0x%x for block %d/%d with error code 0x%02x", addr, pos, block_count, ecode)
 		}
 	}
 	fmt.Print("]")
